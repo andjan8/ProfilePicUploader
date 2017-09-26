@@ -18,10 +18,14 @@
   </div>
 
   <div class="form-group">
-    <label class="radio-inline" *ngFor="let destination of destinations">
-  <input type="radio" name="destinationRadioButton" [value]="destination.name" (click)="onDestinationSelected(destination)">
-  {{destination.name}}
-  </label>
+    <ul class="list-inline">
+      <li *ngFor="let destination of destinations">
+        <label class="radio-inline" data-toggle="tooltip" title={{destination.name}} >
+          <input type="radio" name="destinationRadioButton" [value]="destination.name" (click)="onDestinationSelected(destination)" />
+          <i class="fa {{destination.iconUrl}}"></i>
+        </label>
+      </li>
+    </ul>
   </div>
 
   <div *ngIf="selectedDestination && imageUrl">

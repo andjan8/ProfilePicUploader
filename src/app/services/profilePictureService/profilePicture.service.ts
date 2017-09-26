@@ -6,10 +6,10 @@ export class ProfilePictureService{
 
   public GetDestinations(): ProfilePictureDestination[]{
     return  [
-    new ProfilePictureDestination("Facebook", 180,180),
-    new ProfilePictureDestination("Twitter", 400, 400),
-    new ProfilePictureDestination("Instagram", 110,110),
-    new ProfilePictureDestination("LinkedIn", 400, 400)
+    new ProfilePictureDestination("Facebook", 'fa-facebook', 180,180),
+    new ProfilePictureDestination("Twitter", 'fa-twitter', 400, 400),
+    new ProfilePictureDestination("Instagram", 'fa-instagram', 110,110),
+    new ProfilePictureDestination("LinkedIn", 'fa-linkedin', 400, 400)
     ];
   }
 }
