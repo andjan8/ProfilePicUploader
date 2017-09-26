@@ -1,0 +1,42 @@
+<div class="jumbotron">
+  <h1>{{title}}</h1>
+
+
+  <div class="btn-group" dropdown>
+    <button type="button" class="btn btn-lg btn-primary" (click)="onSelectLocalImageClick()">
+    {{selectLocalImageButtonText}}
+  </button>
+    <button type="button" dropdownToggle class="btn btn-lg btn-primary dropdown-toggle dropdown-toggle-split">
+    <span class="caret"></span>
+    <span class="sr-only">Split button!</span>
+  </button>
+    <ul *dropdownMenu class="dropdown-menu" role="menu">
+      <li role="menuitem">
+        <button class="dropdown-item btn btn-link" (click)="onSelectExternalImageClick()">{{selectExternalImageButtonText}}</button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="form-group">
+    <label class="radio-inline" *ngFor="let destination of destinations">
+  <input type="radio" name="destinationRadioButton" [value]="destination.name" (click)="onDestinationSelected(destination)">
+  {{destination.name}}
+  </label>
+  </div>
+
+  <div *ngIf="selectedDestination && imageUrl">
+    <label>Preview</label>
+    <div>
+      <img [src]="imageUrl" [width]="selectedDestination.size.width" [height]="selectedDestination.size.height" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-default">Download</button>
+    <button type="submit" class="btn btn-default" [disabled]="true">Upload</button>
+  </div>
+
+  <!-- HIDDEN-->
+  <input #main.fileInput type="file" accept="image/*" (change)="onFileInputChange($event)" style="display: none" />
+
+  <div>

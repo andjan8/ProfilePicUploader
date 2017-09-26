@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  projectName: string = "this is the project name";
+  aboutComponentName: string = "About";
+  contactComponentName: string = "Contact";
 }
