@@ -39,6 +39,22 @@ export class HomeComponent implements OnInit {
       .then((file) => this.setFile(file));
   }
 
+  public onDownloadClick(): void{
+   try{
+      var element = document.createElement('a');
+      element.setAttribute('href',this.imageUrl);
+      element.setAttribute('download', "derpasdf.jpeg");
+      element.setAttribute('target', '_blank');
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
+
 
   onFileInputChange(event: EventTarget) {
     this.fileService.ShowFileSelectorDialog(event)

@@ -3,13 +3,15 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { ExternalImageModalComponent } from '../../externalImageModal/externalImageModal.component';
 import { Subscription } from 'rxjs/Subscription';
+import {HttpClient} from '@angular/common/http';
+import 'rxjs/Rx' ;
 
 @Injectable()
 export class FileService {
 
   bsModalRef: BsModalRef;
   subscriptions: Subscription[] = [];
-  constructor(private modalService: BsModalService) { }
+  constructor(private modalService: BsModalService, private http: HttpClient) { }
 
   public ShowFileSelectorModal(): Promise<string> {
 
@@ -47,7 +49,7 @@ export class FileService {
     return promise;
   }
 
-  renderLocalImageUrl(_file: File, resolve: (value: string | PromiseLike<string>) => void) {
+  private renderLocalImageUrl(_file: File, resolve: (value: string | PromiseLike<string>) => void) {
     var _self = this;
     let _reader: FileReader = new FileReader();
 

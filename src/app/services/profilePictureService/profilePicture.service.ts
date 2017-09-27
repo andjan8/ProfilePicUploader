@@ -12,4 +12,5 @@ export class ProfilePictureService{
     new ProfilePictureDestination("LinkedIn", 'fa-linkedin', 400, 400)
     ];
   }
+
 }
