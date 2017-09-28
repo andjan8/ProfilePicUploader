@@ -20,7 +20,7 @@
   <div class="form-group">
     <ul class="list-inline">
       <li *ngFor="let destination of destinations">
-        <label class="radio-inline" data-toggle="tooltip" title={{destination.name}} >
+        <label class="radio-inline" data-toggle="tooltip" title={{destination.name}}>
           <input type="radio" name="destinationRadioButton" [value]="destination.name" (click)="onDestinationSelected(destination)" />
           <i class="fa {{destination.iconUrl}}"></i>
         </label>
@@ -28,10 +28,10 @@
     </ul>
   </div>
 
-  <div *ngIf="selectedDestination && imageUrl">
+  <div *ngIf="selectedDestination && blepp">
     <label>Preview</label>
     <div>
-      <img [src]="imageUrl" [width]="selectedDestination.size.width" [height]="selectedDestination.size.height" />
+      <img [src]="blepp" />
     </div>
   </div>
 
@@ -42,5 +42,5 @@
 
   <!-- HIDDEN-->
   <input #main.fileInput type="file" accept="image/*" (change)="onFileInputChange($event)" style="display: none" />
- 
+
   <div>
