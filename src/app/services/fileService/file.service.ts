@@ -6,14 +6,17 @@ import { Subscription } from 'rxjs/Subscription';
 import { HttpClient } from '@angular/common/http';
 import { Ng2ImgToolsService } from 'ng2-img-tools';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ResponseContentType, RequestOptions } from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
 import 'rxjs/Rx';
 
 @Injectable()
 export class FileService {
-
+  [x: string]: any;
+  baseUrl: string = "http://localhost:3000/foreignResources/";
   bsModalRef: BsModalRef;
   subscriptions: Subscription[] = [];
-  constructor(private modalService: BsModalService, private ng2ImgToolsService: Ng2ImgToolsService, private sanitizer: DomSanitizer, private zone: NgZone) { }
+  constructor(private modalService: BsModalService, private ng2ImgToolsService: Ng2ImgToolsService, private sanitizer: DomSanitizer, private zone: NgZone, private httpClient: HttpClient) { }
 
 
   public ShowFileSelectorModal(): Promise<string> {
@@ -53,6 +56,37 @@ export class FileService {
       };
     });
     return promise;
+  }
+
+
+  public DownloadImageFile(_url: string): Promise<File>{
+        
+    let _fileName: string = this.getFileNameFromUrl(_url);
+    let _fileType = this.getFileTypeFromName(_fileName);
+    let _options = new RequestOptions({responseType: ResponseContentType.Blob });
+    let _headers = new HttpHeaders();
+    var _fullUrl = this.baseUrl + "?url="+encodeURIComponent(_url)+"&filetype="+encodeURIComponent(_fileType);
+    //_headers.append("Access-Control-Allow-Origin", "http://localhost:4200");
+    console.log("Trying to retrieve resource: "+_fullUrl);
+    let _promise = new Promise<File>((resolve, reject) => {
+      this.httpClient.get(_fullUrl, {observe: "body", responseType: "blob", headers: _headers})
+        .subscribe((resp) => {
+          try{
+            console.log("Retrieved response");
+            console.log("Filename: "+_fileName);
+            console.log("FileType: "+_fileType);
+            console.log(resp);
+            let _file: File = new File([resp], _fileName, {type: _fileType} );
+            resolve(_file);
+          }
+          catch(e){
+            reject(e);
+          }
+        });
+      });
+
+     
+      return _promise;
   }
 
 
@@ -97,6 +131,24 @@ export class FileService {
       subscription.unsubscribe();
     });
     this.subscriptions = [];
+  }
+
+
+  private getFileNameFromUrl(url: string) : string {
+    let parts: string[] = url.split("/");
+    let lastPart: string = parts[parts.length-1];
+    let fileName: string = lastPart.split(".").length > 1 ? lastPart : lastPart + ".jpg";
+    return fileName;
+  }
+
+  
+  private getFileTypeFromName(name: string) : string {
+    let parts = name.split(".");
+    let type = "image/"+parts[1].toLowerCase();
+    if(type === "image/jpg"){
+			type = "image/jpeg";
+		}
+    return type;
   }
 
 }

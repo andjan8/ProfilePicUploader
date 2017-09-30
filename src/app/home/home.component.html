@@ -28,10 +28,10 @@
     </ul>
   </div>
 
-  <div *ngIf="selectedDestination && blepp">
+  <div *ngIf="selectedDestination && imageUrl">
     <label>Preview</label>
     <div>
-      <img [src]="blepp" />
+      <img [src]="imageUrl" />
     </div>
   </div>
 
@@ -42,5 +42,8 @@
 
   <!-- HIDDEN-->
   <input #main.fileInput type="file" accept="image/*" (change)="onFileInputChange($event)" style="display: none" />
+  <div *ngIf="file">
+    <a #main.fileDownload [href]="imageUrl" [download]="file.name" target="_blank"  style="display: none">{{file.name}}</a>
+  </div>
 
-  <div>
+<div>

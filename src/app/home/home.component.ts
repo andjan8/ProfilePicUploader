@@ -14,16 +14,17 @@ import { SafeUrl } from '@angular/platform-browser';
 
 export class HomeComponent implements OnInit {
 
+  @ViewChild('main.fileInput')
+  fileInput: any = null;
+  @ViewChild("main.fileDownload")
+  downloadLink: any = null;
   title: string = "Resize and upload your profile pictures";
   selectLocalImageButtonText: string = "Select file";
   selectExternalImageButtonText: string = "Paste a url";
-  imageSelected: boolean = false;
-
-  @ViewChild('main.fileInput')
-  fileInput: any = null;
-  imageUrl: string = null;
+  imageUrl: SafeUrl = null;
   destinations: ProfilePictureDestination[];
   selectedDestination: ProfilePictureDestination;
+  file: File = null;
 
   constructor(private profilePictureService: ProfilePictureService, private fileService: FileService) { }
 
@@ -37,34 +38,7 @@ export class HomeComponent implements OnInit {
   }
 
 
-  public onSelectExternalImageClick() {
-    this.fileService.ShowFileSelectorModal()
-      .then((_file) => {
-        //this.file = _file;
-      });
-  }
-
-
-  public onDownloadClick(): void {
-    try {
-      var element = document.createElement('a');
-      element.setAttribute('href', this.imageUrl);
-      element.setAttribute('download', "derpasdf.jpeg");
-      element.setAttribute('target', '_blank');
-      element.style.display = 'none';
-      document.body.appendChild(element);
-      element.click();
-      document.body.removeChild(element);
-    }
-    catch (e) {
-      console.log(e);
-    }
-  }
-
-
-  blepp: SafeUrl = null;
-  file: File = null;
-  onFileInputChange(event: EventTarget) {
+  public onFileInputChange(event: EventTarget): void {
     this.fileService.ShowFileSelectorDialog(event)
       .then((_file) => {
         this.file = _file;
@@ -72,32 +46,48 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  resizeSelectedFile(){
+
+  public onSelectExternalImageClick() {
+    this.fileService.ShowFileSelectorModal()
+      .then((url) => {
+        this.fileService.DownloadImageFile(url)
+          .then(_file => {
+            this.file = _file;
+            console.log(_file);
+            this.resizeSelectedFile();
+          });
+      });
+  }
+
+
+  private resizeSelectedFile(): void {
     if(this.file && this.selectedDestination){
       this.fileService.ResizeImage(this.file, this.selectedDestination.size.width, this.selectedDestination.size.height)
       .then((safeUrl) => {
-        this.blepp = safeUrl;
+        this.imageUrl = safeUrl;
       })
       .catch((r) => {
-        this.blepp = null;
+        this.imageUrl = null;
         console.log(r);
       });
     }
   }
 
 
-  onDestinationSelected(destination: ProfilePictureDestination): void {
+  public onDestinationSelected(destination: ProfilePictureDestination): void {
     this.selectedDestination = destination;
     this.resizeSelectedFile();
   }
 
 
-  setFile(file: string): void {
-    throw new Error("Not Implemented!");
+  public onDownloadClick(): void {
+    try {
+      this.downloadLink.nativeElement.click();
+    }
+    catch (e) {
+      console.log(e);
+    }
   }
-
-
-
 }
 
 
