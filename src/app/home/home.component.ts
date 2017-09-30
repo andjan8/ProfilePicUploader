@@ -3,7 +3,7 @@ import { ProfilePictureService, FileService } from '../services/';
 import { ProfilePictureDestination } from '../model/';
 import { Size } from '../model/size';
 import { SafeUrl } from '@angular/platform-browser';
-
+import { Ng2FileDropAcceptedFile, Ng2FileDropRejectedFile, Ng2FileDropRejections  }  from 'ng2-file-drop';
 
 @Component({
   selector: 'home',
@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
   destinations: ProfilePictureDestination[];
   selectedDestination: ProfilePictureDestination;
   file: File = null;
+  private supportedFileTypes: string[] = ['image/png', 'image/jpeg', 'image/gif'];
 
   constructor(private profilePictureService: ProfilePictureService, private fileService: FileService) { }
 
@@ -39,7 +40,7 @@ export class HomeComponent implements OnInit {
 
 
   public onFileInputChange(event: EventTarget): void {
-    this.fileService.ShowFileSelectorDialog(event)
+    this.fileService.GetFileFromEvent(event)
       .then((_file) => {
         this.file = _file;
         this.resizeSelectedFile();
@@ -88,6 +89,16 @@ export class HomeComponent implements OnInit {
       console.log(e);
     }
   }
+
+  
+ 
+  // File being dragged has been dropped and is valid
+  private dragFileAccepted(acceptedFile: Ng2FileDropAcceptedFile) {
+    console.log("dragFileAccepted");
+    this.file = acceptedFile.file;
+    this.resizeSelectedFile();
+  }
+ 
 }
 
 

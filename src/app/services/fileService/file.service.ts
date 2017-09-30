@@ -40,7 +40,7 @@ export class FileService {
   }
 
 
-  public ShowFileSelectorDialog(event: EventTarget): Promise<File> {
+  public GetFileFromEvent(event: EventTarget): Promise<File> {
     let promise = new Promise<File>((resolve, reject) => {
       try {
         let _eventObj: MSInputMethodContext = <MSInputMethodContext>event;

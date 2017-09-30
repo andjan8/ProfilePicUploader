@@ -1,6 +1,11 @@
 <div class="jumbotron">
   <h1>{{title}}</h1>
 
+  <div ng2FileDrop class="custom-component-drop-zone"
+    [ng2FileDropSupportedFileTypes]="supportedFileTypes"
+    (ng2FileDropFileAccepted)="dragFileAccepted($event)" 
+    ></div>
+
 
   <div class="btn-group" dropdown>
     <button type="button" class="btn btn-lg btn-primary" (click)="onSelectLocalImageClick()">

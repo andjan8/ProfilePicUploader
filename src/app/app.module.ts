@@ -15,7 +15,7 @@ import { ExternalImageModalComponent } from './externalImageModal/externalImageM
 import { ProfilePictureService } from './services/profilePictureService/profilePicture.service';
 import { ModelModule } from './model/model.module';
 import { ServicesModule } from './services/services.module';
-
+import { Ng2FileDropModule } from 'ng2-file-drop';
 
 @NgModule({
   declarations:
@@ -33,7 +33,8 @@ import { ServicesModule } from './services/services.module';
     AppRoutingModule,
     HttpModule,
     ModelModule,
-    ServicesModule
+    ServicesModule,
+    Ng2FileDropModule
   ],
   entryComponents: [
     ExternalImageModalComponent
