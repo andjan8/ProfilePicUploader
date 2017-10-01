@@ -1,0 +1,27 @@
+import { NgModule } from '@angular/core';
+import { Ng2ImgMaxModule, Ng2ImgMaxService } from 'ng2-img-max';
+import { ImgCropService } from './img-crop.service';
+import { ImgResizeExactService } from './img-resize-exact.service';
+import { Ng2ImgToolsService } from './ng2-img-tools.service';
+var Ng2ImgToolsModule = (function () {
+    function Ng2ImgToolsModule() {
+    }
+    Ng2ImgToolsModule.decorators = [
+        { type: NgModule, args: [{
+                    imports: [
+                        Ng2ImgMaxModule
+                    ],
+                    providers: [
+                        { provide: ImgResizeExactService, useClass: ImgResizeExactService },
+                        { provide: ImgCropService, useClass: ImgCropService },
+                        { provide: Ng2ImgToolsService, useClass: Ng2ImgToolsService },
+                        { provide: Ng2ImgMaxService, useClass: Ng2ImgMaxService }
+                    ]
+                },] },
+    ];
+    /** @nocollapse */
+    Ng2ImgToolsModule.ctorParameters = function () { return []; };
+    return Ng2ImgToolsModule;
+}());
+export { Ng2ImgToolsModule };
+//# sourceMappingURL=ng2-img-tools.module.js.map
